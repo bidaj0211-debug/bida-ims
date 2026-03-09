@@ -1,0 +1,5 @@
+[phases.install]
+cmds = ["pip install pg8000==1.31.2"]
+
+[start]
+cmd = "python cloud_main.py"
