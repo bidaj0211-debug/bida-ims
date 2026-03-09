@@ -1,0 +1,127 @@
+# Bida Sales IMS — Cloud Deployment Guide
+# Railway (web server) + Supabase (database)
+# No command line needed after initial setup!
+
+================================================
+STEP 1 — Create Supabase Database (5 minutes)
+================================================
+
+1. Go to: https://supabase.com
+2. Click "Start your project" → Sign up (free)
+3. Click "New Project"
+   - Name: bida-ims
+   - Password: (make a strong one, save it!)
+   - Region: Southeast Asia (Singapore)
+4. Wait 2 minutes for project to create
+5. Go to: Settings → Database
+6. Scroll to "Connection string" → select "URI"
+7. Copy the connection string — looks like:
+   postgresql://postgres:[PASSWORD]@db.xxxx.supabase.co:5432/postgres
+8. Replace [YOUR-PASSWORD] with your actual password
+9. SAVE THIS STRING — you need it in Step 2
+
+
+================================================
+STEP 2 — Deploy to Railway (10 minutes)
+================================================
+
+1. Go to: https://railway.app
+2. Sign up with GitHub (free)
+3. Click "New Project" → "Deploy from GitHub repo"
+   (or "Empty Project" if no GitHub)
+
+IF USING GITHUB:
+  a. Upload these files to a new GitHub repo:
+     - web_server.py
+     - db_manager_pg.py
+     - cloud_main.py
+     - requirements.txt
+     - Procfile
+  b. Connect Railway to that repo
+
+IF NO GITHUB (easier):
+  a. Click "New Project" → "Empty Project"
+  b. Click "Deploy" → "Upload files"
+  c. Upload all 5 files above
+
+4. In Railway project, click your service
+5. Go to "Variables" tab
+6. Click "New Variable" and add:
+
+   DATABASE_URL = postgresql://postgres:[PASSWORD]@db.xxxx.supabase.co:5432/postgres
+   (paste the connection string from Step 1)
+
+7. Railway will auto-deploy
+8. Click "Settings" tab → find your URL:
+   https://bida-ims.up.railway.app (or similar)
+
+
+================================================
+STEP 3 — First Time Setup
+================================================
+
+1. Open your Railway URL in browser
+2. Login with default PIN: 1234
+3. Go to Manage Users → Change Admin PIN immediately!
+4. Add all staff users with their PINs
+5. Add your products
+
+
+================================================
+WHAT YOU GET
+================================================
+
+✅ Always online — no PC needed
+✅ Access from anywhere — office, Capitol, home
+✅ Scanner works via mobile data or WiFi
+✅ All staff use same URL
+✅ Data stored safely in Supabase cloud
+✅ Free — Railway $5 credit/month (your app uses ~$0.50)
+✅ Free — Supabase 500MB free forever
+
+
+================================================
+YOUR URLS
+================================================
+
+Web App:   https://[your-app].up.railway.app
+           (bookmark this on all devices)
+
+Supabase:  https://app.supabase.com
+           (to view/backup your database)
+
+
+================================================
+KEEPING LOCAL PC VERSION TOO (optional)
+================================================
+
+Your existing setup still works locally:
+- main.py (desktop) → uses local warehouse.db
+- web_server.py (local) → http://192.168.x.x:8080
+
+Cloud version is separate — different database.
+
+To MIGRATE existing data to cloud:
+- Contact us and we'll build a migration script
+
+
+================================================
+TROUBLESHOOTING
+================================================
+
+App won't load:
+  → Check Railway dashboard — is service running?
+  → Check Variables — is DATABASE_URL set correctly?
+
+Can't login:
+  → Default PIN is 1234
+  → Check Supabase → Table Editor → users table
+
+Data not saving:
+  → Check DATABASE_URL has correct password
+  → Check Supabase project is not paused (free tier pauses after 1 week inactive)
+
+Supabase paused:
+  → Go to supabase.com → click your project → Restore
+  → Free tier pauses after 7 days of no activity
+  → Upgrade to Pro ($25/mo) to avoid this, or just restore when needed
