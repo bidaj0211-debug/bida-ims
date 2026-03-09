@@ -11,8 +11,23 @@ from urllib.parse import urlparse, parse_qs, unquote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
-from database.db_manager import DatabaseManager
-from database import config_manager
+
+# ── Smart import — works locally AND on cloud ─────────────────
+if os.environ.get("DATABASE_URL"):
+    # Cloud mode — PostgreSQL
+    import db_manager_pg as _db_mod
+    DatabaseManager = _db_mod.DatabaseManager
+    class config_manager:
+        @staticmethod
+        def get_db_path(): return None
+else:
+    # Local mode — SQLite
+    try:
+        from database.db_manager import DatabaseManager
+        from database import config_manager
+    except ImportError:
+        from db_manager import DatabaseManager
+        import config_manager
 
 PORT = 8080
 
